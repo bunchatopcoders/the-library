@@ -44,17 +44,17 @@ int day, mounth, year;
 typedef struct book {
     char title[BOOKTILTE];
     char author[NAME];
-    int ISBN;
+    char ISBN[18];
     char publisher[NAME];
     char category[NAME];
-    int availability;
+    int av; //availability
     //bool isSafe; // to check whether content is safe for underage
     date date_pub;
     //borrow -> copies
 
 }book;
 
-typedef struct bbooks // borrow book
+typedef struct borrow // borrow book
 {
    
     int id; // id tany 5als
