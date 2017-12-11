@@ -7,7 +7,7 @@
 
 typedef struct date {
 
-int day, mounth, year;
+int day, month, year;
 
 
 } date;
