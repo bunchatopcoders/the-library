@@ -19,8 +19,8 @@ typedef struct book {
     char ISBN[18]; // isbn should be char char ISBN[18] 13 digits + 4'-'s + '\0' 
     char publisher[NAME];
     char category[NAME];
-    int availability;
-    bool isSafe; // to check whether content is safe for underage
+    int av; // аvailability
+    //bool isSafe; // to check whether content is safe for underage
     date date_pub;
     //borrow -> copies
 
@@ -35,13 +35,13 @@ typedef struct borrow // borrow book
     date date_issue;
     //int book.ISBN;
 
-} bbooks;
+} borrow;
 typedef struct  member {
 
-    char name[1][NAME];
+    char name[1][NAME]; // 0,1 
     int id;
-    char address[2][NAME];
-    int age;
+    char address[2][NAME]; // 0,1,2
+    date dateofbirth;
     char phone[12];
     char email[30];
 }member;
