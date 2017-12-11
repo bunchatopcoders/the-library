@@ -38,9 +38,9 @@ typedef struct borrow // borrow book
 } bbooks;
 typedef struct  member {
 
-    char name[2][NAME];
+    char name[1][NAME];
     int id;
-    char address[3][NAME];
+    char address[2][NAME];
     int age;
     char phone[12];
     char email[30];
