@@ -53,7 +53,7 @@ int main()
 {
 	
 	addbook();
-	
+	system("xdg-open booktemp.csv");
 	
 return 0;	
 	
@@ -92,8 +92,8 @@ puts("Enter category");
 gets(books.category);
 puts("Enter number of books available");
 scanf("%d",&books.av);
-puts("enter day-month-year  ex: 20-6-1998");
-scanf("%d-%d-%d",&books.date_pub.day,&books.date_pub.month,&books.date_pub.year);
+puts("enter day/month/year  ie: 20/6/1998");
+scanf("%d/%d/%d",&books.date_pub.day,&books.date_pub.month,&books.date_pub.year);
 lowercase(books.title);
 lowercase(books.author);
 lowercase(books.publisher);
