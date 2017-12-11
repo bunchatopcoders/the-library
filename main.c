@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "conio1.h"
+#include "coniox.h"
 #include <curses.h>
 #include <string.h>
 
