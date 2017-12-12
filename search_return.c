@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> // strstr strtok
-#include <curses.h>
+#include <curses.h> // no need here
 
 
 
 
 int strtoint(char *str); //convert string to integer
-int search_isbn(char *filename, int id , char **isbn);
-int search_id(char *filename, char *ISBN, int *id);
+int search_isbn(char *filename, int id , char **isbn); // --> Youssef
+int search_id(char *filename, char *isbn, int *id); // --> Youssef
+int search_line(char *filename, char *ISBN , int *line); // --> Michael
 
 
 int main() 
@@ -18,36 +19,56 @@ int main()
 	
 	int i;
 	// declaration for isnb[][18]
-	char **isbn = (char**) calloc(5, sizeof(char*));
+	char **isbn = (char**) calloc(5, sizeof(char*)); // rows = 5 
 	for(i = 0; i < 5; i++)
-	isbn[i] = malloc(18 * sizeof(char));
+	isbn[i] = malloc(18 * sizeof(char)); // columns = 18
+	
+	puts("=============");
 	
 	// test for search_isbn 
 	int flag_isbn = search_isbn("isbn.txt", 4452 , isbn);
 	if (flag_isbn)
 	{for (i=0 ; i<flag_isbn ; i++)
-	printf("\nisnb[%d] = %s\n",i,isbn[i]);
+	printf("isbn[%d] = %s\n",i,isbn[i]);
 	} else 
 	puts("NOT FOUND !!");
 	
+	puts("=============");
 	
+	// declaration for id[]
 	int *id;
 	id = (int*)calloc(5, sizeof(int));
 	
 	int flag_id;
 	
 	char strIS[]="12-57-55";
-	
 	flag_id = search_id("isbn.txt", strIS , id);
 	
-	printf("flag_find = %d\n", flag_id);
 	if(!flag_id) {
 		perror("Error");
 		exit(1);
 	}else 
 	
 	for(int i =0 ; i<flag_id ; i++)
-	printf("\nid[%d] = %d\n",i,id[i]);
+	printf("id[%d] = %d\n",i,id[i]);
+	
+	
+	// declaration for line[]
+	puts("=============");
+	int *line;
+	line= (int*)calloc(5, sizeof(int));
+	
+	int flag_line;
+	flag_line = search_line("isbn.txt", "12-57-55" , line); 
+	
+	if(!flag_line) {
+		perror("Error");
+		exit(1);
+	}else
+	{
+		for( i = 0 ; i< flag_line ; i++)
+		printf("line_found = line[%d] = %d\n",i,line[i]);
+	}
 	
 	
 		
@@ -126,7 +147,7 @@ int search_isbn(char *filename, int id , char **isbn) {
 }
 
 
-int search_id(char *filename, char *ISBN, int *id) {
+int search_id(char *filename, char *isbn, int *id) {
 	
 	int i=0 , j=0;
 	
@@ -146,7 +167,7 @@ int search_id(char *filename, char *ISBN, int *id) {
 
 	// fgets syntax btw  :  char *fgets(char *str, int n, FILE *stream)
 	while(fgets(temp, sizeof(temp)+1, fp) != NULL) {
-		if((strstr(temp, ISBN)) ) {
+		if((strstr(temp, isbn)) ) {
 			
 			//printf("a matched found in line %d\n",l_index);
 			
@@ -194,6 +215,47 @@ int search_id(char *filename, char *ISBN, int *id) {
    	
    	return counter;
 }
+
+
+int search_line(char *filename, char *ISBN , int *line) {
+	
+	//declare L file
+	FILE *fp;
+	int l_index = 1; 	// line number
+	int counter = 0; 	// # of matched strings
+	char temp[512]; // or 1024 7asab b2a L entries beta3tna
+	
+	
+    
+	int i =0;
+	// open l file read mode tab3n 34an law m4 mawgood a2olo faks
+	if((fp = fopen(filename, "r")) == NULL) {
+		return(0);
+	}
+
+	// fgets syntax btw  :  char *fgets(char *str, int n, FILE *stream)
+	while(fgets(temp, sizeof(temp)+1, fp) != NULL) {
+		if((strstr(temp, ISBN)) ) {
+			//fscanf(fp, "%[^,],%d,%d\n", str1, &isbn , &copies);
+			//printf("A match found on line: %d\n", l_index);
+			line[i++] = l_index; // store it
+			//printf("\n%s\n", temp);
+			
+			counter++;
+		}
+		
+		l_index++;
+	}
+
+	
+	
+	//Close the file if still open.
+	if(fp) {
+		fclose(fp);
+	}
+   	return (counter);
+}
+
 
 
 int strtoint(char *str)
