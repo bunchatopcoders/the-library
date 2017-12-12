@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> // strstr strtok
-#include <curses.h> // no need here
+#include <curses.h>
 
 
 
@@ -9,7 +9,7 @@
 int strtoint(char *str); //convert string to integer
 int search_isbn(char *filename, int id , char **isbn); // --> Youssef
 int search_id(char *filename, char *isbn, int *id); // --> Youssef
-int search_line(char *filename, char *ISBN , int *line); // --> Michael
+int search_line(char *filename, char *ISBN , int *line ); // --> Michael
 
 
 int main() 
@@ -56,20 +56,21 @@ int main()
 	// declaration for line[]
 	puts("=============");
 	int *line;
-	line= (int*)calloc(5, sizeof(int));
+	line= (int*)calloc(20, sizeof(int));
 	
 	int flag_line;
+	//int size=0;
 	flag_line = search_line("isbn.txt", "12-57-55" , line); 
 	
 	if(!flag_line) {
 		perror("Error");
 		exit(1);
 	}else
-	{
+	
 		for( i = 0 ; i< flag_line ; i++)
 		printf("line_found = line[%d] = %d\n",i,line[i]);
-	}
 	
+		printf("no of lines = %d",line[i]);
 	
 		
 	
@@ -212,12 +213,12 @@ int search_id(char *filename, char *isbn, int *id) {
 		fclose(fp);
 	}
    
-   	
+  
    	return counter;
 }
 
 
-int search_line(char *filename, char *ISBN , int *line) {
+int search_line(char *filename, char *ISBN , int *line ) {
 	
 	//declare L file
 	FILE *fp;
@@ -253,6 +254,9 @@ int search_line(char *filename, char *ISBN , int *line) {
 	if(fp) {
 		fclose(fp);
 	}
+	
+	 //printf("\n counter = %d",l_index);
+	 line[i] = l_index-1;
    	return (counter);
 }
 
