@@ -10,6 +10,7 @@ int strtoint(char *str); //convert string to integer
 int search_isbn(char *filename, int id , char **isbn); // --> Youssef
 int search_id(char *filename, char *isbn, int *id); // --> Youssef
 int search_line(char *filename, char *ISBN , int *line ); // --> Michael
+int getnumline(char *filename); // --> Michael: you may need it
 
 
 int main() 
@@ -261,6 +262,22 @@ int search_line(char *filename, char *ISBN , int *line ) {
 }
 
 
+int getnumline(char *filename)
+	{
+		FILE *fp;
+	int l_index =0; 	// line number
+	
+	if((fp = fopen(filename, "r")) == NULL) {
+		return(0);
+	}
+	char temp[128];
+	while(fgets(temp, sizeof(temp)+1, fp) != NULL)
+		l_index++;	
+			
+		
+		
+		return l_index;
+		}
 
 int strtoint(char *str)
 
