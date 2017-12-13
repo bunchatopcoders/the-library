@@ -44,6 +44,7 @@ typedef struct  member {
     date dateofbirth;
     char phone[12];
     char email[30];
+    char pass[32];
 }member;
 
 int main()
