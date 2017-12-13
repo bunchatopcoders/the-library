@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <curses.h>
-#define BOOKTILTE 50
-#define NAME 25
+#define BOOKTILTE 64
+#define NAME 32
 
 typedef struct date {
 
@@ -36,16 +36,25 @@ typedef struct borrow // borrow book
     //int book.ISBN;
 
 } borrow;
+
+typedef struct address
+{
+ int building;
+ char city[16];
+ char street[16];
+}address;
+
 typedef struct  member {
 
     char name[1][NAME]; // 0,1 
     int id;
-    char address[2][NAME]; // 0,1,2
+    address addressmem;  // 0,1,2
     date dateofbirth;
     char phone[12];
     char email[30];
     char pass[32];
 }member;
+
 
 int main()
 {
