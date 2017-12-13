@@ -46,7 +46,7 @@ typedef struct address
 
 typedef struct  member {
 
-    char name[1][NAME]; // 0,1 
+    char name[2][NAME]; // 0,1 
     int id;
     address addressmem;  // 0,1,2
     date dateofbirth;
