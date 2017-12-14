@@ -53,6 +53,7 @@ typedef struct  member {
     char phone[12];
     char email[30];
     char pass[32];
+    int borrowav;
 }member;
 
 
