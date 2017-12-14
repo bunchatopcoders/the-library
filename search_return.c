@@ -14,7 +14,7 @@ int search_isbn(char *filename, int id , char **isbn); // --> Youssef
 int search_id(char *filename, char *isbn, int *id); // --> Youssef
 int search_line(char *filename, char *ISBN , int *line ); // --> Michael
 int getnumline(char *filename); // --> Michael: you may need it
-
+int search_line_borrow(char *filename, int id , int *line ); //--> Youssef
 
 int main() 
 
@@ -245,6 +245,50 @@ int search_line(char *filename, char *ISBN , int *line ) {
 			//printf("A match found on line: %d\n", l_index);
 			line[i++] = l_index; // store it
 			//printf("\n%s\n", temp);
+			
+			counter++;
+		}
+		
+		l_index++;
+	}
+
+	
+	
+	//Close the file if still open.
+	if(fp) {
+		fclose(fp);
+	}
+	
+	 //printf("\n counter = %d",l_index);
+	 line[i] = l_index-1;
+   	return (counter);
+}
+
+int search_line_borrow(char *filename, int id , int *line ) {
+	
+	char idstr[5]; //for id (max 9999)
+	sprintf(idstr, "%d", id);
+	
+	//declare L file
+	FILE *fp;
+	int l_index = 1; 	// line number
+	int counter = 0; 	// # of matched strings
+	char temp[512]; // or 1024 7asab b2a L entries beta3tna
+	
+	
+    
+	int i =0;
+	// open l file read mode tab3n 34an law m4 mawgood a2olo faks
+	if((fp = fopen(filename, "r")) == NULL) {
+		return(0);
+	}
+
+	// fgets syntax btw  :  char *fgets(char *str, int n, FILE *stream)
+	while(fgets(temp, sizeof(temp)+1, fp) != NULL) {
+		if((strstr(temp, idstr)) ) {
+			
+			line[i++] = l_index; // store it
+			
 			
 			counter++;
 		}
