@@ -7,7 +7,10 @@
 
 
 int strtoint(char *str); //convert string to integer
+
+// search isbn by id returns no. of matches (0,1) , matches stored in 2d array (calloc)
 int search_isbn(char *filename, int id , char **isbn); // --> Youssef
+// search id by isbn returns no of matches (0,1)
 int search_id(char *filename, char *isbn, int *id); // --> Youssef
 int search_line(char *filename, char *ISBN , int *line ); // --> Michael
 int getnumline(char *filename); // --> Michael: you may need it
