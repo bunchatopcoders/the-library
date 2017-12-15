@@ -58,7 +58,7 @@ int returnbook(char isbn,int id,int d)      //d is the time period limit
     }while(isbnb!=isbn&&idp!=id)
         fclose(f);
     if(comparedates(n)>d)
-        {printf("Your book is over due please report to the proper authority");
+        {puts(Your book is over due please report to the proper authority);
         flag=1;
         }
 
