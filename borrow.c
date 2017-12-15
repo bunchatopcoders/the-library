@@ -38,7 +38,7 @@ void borrow(char isbn,int id)
         fclose(f);
         deleteline("booktemp.csv",l);
         books.av--;
-        fopen("booktemp.csv.csv","a");
+        fopen("booktemp.csv","a");
         fprintf(f,"%s,%s,%s,%s,%s,%d,%d,%d,%d\n",books.title,books.author,books.ISBN,
                 books.publisher,books.category,books.av,books.date_pub.day,books.date_pub.month,books.date_pub.year);
         fclose(f);
@@ -49,13 +49,14 @@ void borrow(char isbn,int id)
 int returnbook(char isbn,int id,int d)      //d is the time period limit
 {
     FILE* f;
-    int i,l1;
-    int l2[3];
+    int i,l1,l2;
     int flag=0;
     f=fopen("bborrowtemp.csv","r");
     date n;
     do {
-    fscanf(f,"%d,%s ,%d,%d,%d\n",idp,isbnb,n.day,n.month,n.year);}while(isbnb!=isbn&&idp!=id)fclose(f);
+    fscanf(f,"%d,%s ,%d,%d,%d\n",idp,isbnb,n.day,n.month,n.year);
+    }while(isbnb!=isbn&&idp!=id)
+        fclose(f);
     if(comparedates(n)>d)
         {printf("Your book is over due please report to the proper authority");
         flag=1;
@@ -81,7 +82,7 @@ int returnbook(char isbn,int id,int d)      //d is the time period limit
     fclose(f);
     deleteline("booktemp.csv",l1);
     books.av++;
-    fopen("booktemp.csv.csv","a");
+    fopen("booktemp.csv","a");
     fprintf(f,"%s,%s,%s,%s,%s,%d,%d,%d,%d\n",books.title,books.author,books.ISBN,
             books.publisher,books.category,books.av,books.date_pub.day,books.date_pub.month,books.date_pub.year);
     fclose(f);
