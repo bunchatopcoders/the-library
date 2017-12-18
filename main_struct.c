@@ -22,6 +22,7 @@ typedef struct book {
     int av; // аvailability
     //bool isSafe; // to check whether content is safe for underage
     date date_pub;
+    int popularity; // required
     //borrow -> copies
 
 }book;
@@ -33,6 +34,7 @@ typedef struct borrow // borrow book
     char ISBN[18]; // ISBN tany 5als \\// isbn should be char char ISBN[18] 13 digits + 4'-'s + '\0' 
     date date_due;
     date date_issue;
+    date date_return; // required
     //int book.ISBN;
 
 } borrow;
