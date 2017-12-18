@@ -73,9 +73,70 @@ void lowercase(char *str)
 	
 	}
 
-
+//new addbook 
 
 void addbook(void)
+{
+	
+struct_index1++; // global variable intialized with -1
+
+char buffer[64];
+puts("Enter Book Title :");
+fgets(buffer,sizeof(buffer),stdin);
+//gets(books.title);
+strcpy(books[struct_index1].title,buffer);
+
+puts("Enter Author name :");
+fgets(buffer,sizeof(buffer),stdin);
+strcpy(books[struct_index1].author,buffer);
+
+//gets(books.author);
+
+puts("Enter ISBN (using standard)");
+fgets(buffer,18,stdin);
+strcpy(books[struct_index1].author,buffer);
+
+//gets(books.ISBN);
+puts("Enter Publisher name:");
+fgets(buffer,sizeof(buffer)/2,stdin);
+strcpy(books[struct_index1].publisher,buffer);
+
+//gets(books.publisher);
+
+puts("Enter category");
+fgets(buffer,sizeof(buffer)/2,stdin);
+strcpy(books[struct_index1].category,buffer);
+
+//gets(books.category);
+puts("Enter number of books available");
+fgets(buffer,4,stdin);
+int av;
+av = atoi(buffer);
+books[struct_index1].av = av;
+
+//scanf("%d",&books.av);
+
+puts("Enter date of publication .. enter day/month/year  e.g: 20/6/1998\n if any part is unkown just write 0");
+//fgets(buffer,2,stdin);
+//strcpy(books[struct_index].category,buffer);
+
+scanf("%d/%d/%d",&books[struct_index1].date_pub.day,	
+&books[struct_index1].date_pub.month,&books[struct_index1].date_pub.year);
+/*lowercase(books.title);
+lowercase(books.author);
+lowercase(books.publisher);
+lowercase(books.category);
+fprintf(f,"%s,%s,%s,%s,%s,%d,%d,%d,%d\n",books.title,books.author,books.ISBN,
+books.publisher,books.category,books.av,books.date_pub.day,books.date_pub.month,books.date_pub.year);
+*/
+
+}
+
+
+
+/////////////////////////////////////////////////////////
+
+/* void addbook(void)
 {
 FILE *f;
 f= fopen("booktemp.csv" ,"a");
@@ -101,3 +162,4 @@ lowercase(books.category);
 fprintf(f,"%s,%s,%s,%s,%s,%d,%d,%d,%d\n",books.title,books.author,books.ISBN,
 books.publisher,books.category,books.av,books.date_pub.day,books.date_pub.month,books.date_pub.year);
 }
+*/
