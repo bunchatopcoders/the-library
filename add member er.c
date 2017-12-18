@@ -21,7 +21,7 @@ typedef struct  member {
     int borrowav=3;
     char phone[12];
     char email[30];
-    char pass[32];
+    char pass[13];
 
 }member;
 
