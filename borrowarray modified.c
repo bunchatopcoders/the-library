@@ -5,8 +5,6 @@ void borrow(char* isbn,int id)
     int i;
     time_t t=time(NULL);
     struct tm now=*localtime(&t);
-    now.tm_mon+1;
-    now.tm_year+1900;
     //search by id for itrator
     if (!member[i].borrowav)
     {
@@ -15,7 +13,7 @@ void borrow(char* isbn,int id)
     else
     {
         member[i].borrowav--;
-        // global bborrows itrator++
+        // global borrows itrator++
         borrows[/*global itrator*/].id=id;
         borrows[/*global itrator*/].isbn=isbn;
         borrows[/*global itrator*/].date_issue=now;
@@ -34,8 +32,6 @@ int returnbook(char*isbn,int id)
     int i,flag=0;
     time_t t=time(NULL);
     struct tm now=*localtime(&t);
-    now.tm_mon+1;
-    now.tm_year+1900;
     //search by isbn and id for index
     if( now<borrows[/*isbn and id index*/].date_due )
         {printf("Your book is over due please report to the proper authority");
