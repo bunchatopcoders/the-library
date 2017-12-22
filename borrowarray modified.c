@@ -51,6 +51,7 @@ int returnbook(char*isbn,int id)
 
 void addcopy(char* isbn)
 {
+    //check if isbn exists
     int i,n;
     do {
         puts("please enter the number of copies you want to add");
