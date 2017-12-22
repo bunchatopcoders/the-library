@@ -22,13 +22,13 @@
 
 
 
-/*typedef struct date {
+typedef struct date {
 
 int day, month, year;
 
 
 } date;
-*/
+
 typedef struct tm tm;
 
 
@@ -86,7 +86,7 @@ typedef struct  member {
     int id;
     address addressmem; 
     tm dateofbirth; 
-    //date dateofbirth;
+    date dateofbirth1;
     char phone[12];
     char email[30];
     char pass[13];
@@ -124,9 +124,12 @@ bool isletter(int ch);
 bool checkemail(char* str);
 bool checkdatem(int day , int month , int year);
 bool checkdateb(int day , int month , int year);
-
+void read_from_file3(void);
+void save_in_file3(void);
 void save_in_file2(void);
 bool checkdate(int day , int month , int year);
+
+void read_from_file2(void);
 //void search_in_book(book books[] , char* str , int mode);
 // GLOBAAAAL 
 int struct_index1 = -1; // book
@@ -145,12 +148,14 @@ tm tim = *localtime(&t);
 
 yeear = tim.tm_year + 1900; // now global has current year
 
+//read_from_file2();
+read_from_file3();
+read_from_file();
+//addbook();
 
-  //read_from_file();
-  //printf("%s", members[struct_index2].name[0]);
-  addmember();
+  //addmember();
   delay(50);
-	//
+	
   //addbook();
   char bufs[20];
   
@@ -693,38 +698,6 @@ void menu_search(void)
 } while (flag);
 
 	
-	
-/*	do{
-	puts("Enter your choice number :");
-	fgets(choicey , 18 , stdin);
-	flag = isstrdigit(choicey);
-	if(flag)
-	choice = atoi(choicey);
-	else 
-	choice = 100;
-	} while((choice < 0 || choice >5));
-	//printf("choice = %d",choice);
-	
-	switch (choice)
-	{
-			case 1 : 
-			puts("Enter ISBN :");
-			break;
-			case 2 : 
-			puts("Enter Title or partial title :");
-			break;
-			case 3 :
-			puts("Enter Author name or partial name :");
-			break;
-			case 4:
-			puts("Enter Category :");
-			break;
-			case 5:
-			puts("Enter Publisher name or partial :");
-			break;
-	}
-*/
-	
 	fgets(buffer , 18,stdin);
 	search_in_book(buffer ,choice); 
 	
@@ -778,7 +751,7 @@ strcpy(books[struct_index1].title,buffer);
 
 */
 
-puts("Enter Title name :");
+puts("Enter Title  :");
 fgets(buffer,sizeof(buffer),stdin);
 len = strlen(buffer)-1;
 buffer[len] = '\0';
@@ -940,8 +913,8 @@ buffer[len] = '\0';
 //flagfn = isstralpha(buffer);
 
 
-
 strcpy(members[struct_index2].name[0],buffer);
+printf("\n %s\n",members[struct_index2].name[0]);
 
 bool flagln = TRUE;
 
@@ -949,11 +922,11 @@ puts("Enter Last Name:");
 fgets(buffer,32,stdin);
 len = strlen(buffer)-1;
 buffer[len] = '\0';
-flagln = isstralpha(buffer);
+//flagln = isstralpha(buffer);
 
 
 strcpy(members[struct_index2].name[1],buffer);
-
+//printf("\n %s\n",members[struct_index2].name[1]);
 
 bool flag_bl = TRUE;
 
@@ -972,13 +945,17 @@ int buildno;
 buildno = atoi(buffer);
 members[struct_index2].addressmem.building = buildno;
 
-puts("Enter street name :");
-fgets(buffer,32,stdin);
+//printf("\n %d\n",members[struct_index2].addressmem.building);
+
+
+puts("Enter Street:");
+fgets(buffer,NAME/2,stdin);
 len = strlen(buffer)-1;
 buffer[len] = '\0';
 strcpy(members[struct_index2].addressmem.street , buffer); 
-//printf("street = %s",members[struct_index2].addressmem.street);
 
+
+//printf("\n %s\n",members[struct_index2].addressmem.street);
 puts("Enter city:");
 fgets(buffer,NAME/2,stdin);
 len = strlen(buffer)-1;
@@ -1030,17 +1007,17 @@ if (flagd && flagm && flagy)
 
 } while (!flagg);
 
-members[struct_index1].dateofbirth.tm_mday = d;
-members[struct_index1].dateofbirth.tm_mon = m;
-members[struct_index1].dateofbirth.tm_year = y; // just if you wish to calc age
+members[struct_index2].dateofbirth.tm_mday = d;
+members[struct_index2].dateofbirth.tm_mon = m;
+members[struct_index2].dateofbirth.tm_year = y; // just if you wish to calc age
 
 /* printf("%d/%d/%d",members[struct_index1].dateofbirth.tm_mday = d,
 members[struct_index1].dateofbirth.tm_mon = m,
 members[struct_index1].dateofbirth.tm_year = y);
 */ 
-members[struct_index1].dateofbirth.tm_sec = 0;
-members[struct_index1].dateofbirth.tm_min = 0;
-members[struct_index1].dateofbirth.tm_hour = 0;
+members[struct_index2].dateofbirth.tm_sec = 0;
+members[struct_index2].dateofbirth.tm_min = 0;
+members[struct_index2].dateofbirth.tm_hour = 0;
 
 
 
@@ -1055,7 +1032,7 @@ flag_ph = isstrdigit(buffer);
 //printf("flag = %d",flag);
 } while(!flag_ph || (strlen(buffer)<= 6));
 
-strcpy(members[struct_index2].addressmem.street , buffer); 
+strcpy(members[struct_index2].phone , buffer); 
 
 //printf("%s",members[struct_index2].addressmem.street);
 
@@ -1111,7 +1088,6 @@ do
 	//save_in_file();
 	save_in_file2();
 	
-	
 	puts("\nsaved :)");
 	system("clear");
 	printf(YEL "\nYour id is :" RESET);
@@ -1120,9 +1096,9 @@ do
 	flag_reg = FALSE;
 	break;
 	
-	default:
+	/*default:
 	id--;
-	struct_index2--;
+	struct_index2--;*/
 }
 	
 } while (flag_reg);
@@ -1366,27 +1342,11 @@ int search_in_book_R(char* str , int mode){
 */
 
 
-/*void removebook();
-{
-    int ind,n,c;
-    int indx;
-    char buffer[32];
-    fgets(buffer, sizeof(buffer),stdin);
-    indx = search_in_book_R(buffer,1);
-    //scanf("%d",&ind);//element to be removed
-    if(indx > n)
-        printf("ISBN is");
-    else
-    for(c=ind-1;c<n-1;c++)
-        c[ind]=c[ind+1];
-        //global iterator--
-}
 
-*/
  void save_in_file(void)
 {
 	
-FILE *fp1 , *fp2;
+FILE *fp1;
 
 	//book
    fp1 = fopen ("book.csv", "w");
@@ -1401,45 +1361,34 @@ FILE *fp1 , *fp2;
 
    fclose(fp1);
    
-   puts("entered checkpoint1 ");
-   //member 
-   fp2 = fopen ("member.csv", "w");
+ 
   
-   for( i = 0 ; i <= struct_index2 ; i++)
-   fprintf(fp2, "%s,%s,%d,%s,%s,%d,%d-%d-%d,%s,%d\n",
-    members[i].name[0],
-    members[i].name[1], 
-    members[i].addressmem.building,
-    members[i].addressmem.street,
-    members[i].addressmem.city,
-    members[i].phone,
-    members[i].dateofbirth.tm_mday,
-    members[i].dateofbirth.tm_mon,
-    members[i].dateofbirth.tm_year,
-    members[i].pass,
-    members[i].id);
-    
-    
-    
-     fclose(fp2);
-   
-   // member
-   /*fp2 = fopen ("member.csv", "w");
-   int year;
-   for( i = 0 ; i <= struct_index2; i++)
-   {
-	   year = members[i].dateofbirth.tm_year;
-	   fprintf(fp2, "%s,%s,%d,%s,%s,%d-%d-%d,%s,%d,%s",
-    members[i].name[0],members[i].name[1],members[i].addressmem.building,
-    members[i].addressmem.street, members[i].addressmem.city,members[i].dateofbirth.tm_mday,
-    members[i].dateofbirth.tm_mon,year,members[i].phone,members[i].id,members[i].pass );
-	//id++;
+  
 }
 
+void save_in_file3(void)
+{
+	
+FILE *fp1;
+
+	//book
+   fp1 = fopen ("members.csv", "w");
+   int i ;
+   for( i = 0 ; i <= struct_index1 ; i++)
+   fprintf(fp1, "%s,%s,%s,%s,%s,%d,%d-%d-%d,%d\n",
+    books[i].title,books[i].author, books[i].ISBN,books[i].publisher,
+    books[i].category, books[i].av,books[i].date_pub1.tm_mday,books[i].date_pub1.tm_mon,
+    books[i].date_pub1.tm_year,books[i].popularity);
+   
+
+
+   fclose(fp1);
+   
+ 
   
- 	
-	*/
+  
 }
+
 
 
 void save_in_file2(void)
@@ -1450,12 +1399,22 @@ FILE *fp1;
 	//borrow
    fp1 = fopen ("member.csv", "w");
    int i ;
+   
    for( i = 0 ; i <= struct_index2 ; i++)
-   fprintf(fp1, "%s,%s,%d,%s\n",
-   members[i].name[0],members[i].name[1],members[i].addressmem.building,members[i].addressmem.street
+   fprintf(fp1, "%s,%s,%d,%s,%s,%d-%d-%d,%s,%s,%s,%d\n",
+   members[i].name[0],members[i].name[1],
+   members[i].addressmem.building,
+   members[i].addressmem.street,
+   members[i].addressmem.city,
+   members[i].dateofbirth.tm_mday,
+   members[i].dateofbirth.tm_mon,
+   members[i].dateofbirth.tm_year,
+   members[i].phone,
+   members[i].email,
+   members[i].pass,
+   members[i].id
    );
     
-   
 
 
    fclose(fp1);
@@ -1495,6 +1454,7 @@ void addcopy(char *isbn)
 void read_from_file(void)
 {
 
+// book
 FILE *fp1 , *fp2 ;
 
 fp1 = fopen("book.csv", "r") ; 
@@ -1527,25 +1487,40 @@ while(!feof(fp1))
 	
 fclose(fp1);
 
-counter = 0;
-fp2 = fopen("member.csv", "r") ; 
 
-while(!feof(fp2))
+}
+
+
+void read_from_file3(void)
+{
+
+// book
+FILE *fp1 ;
+
+fp1 = fopen("member.csv", "r") ; 
+
+int counter =0;
+
+
+while(!feof(fp1))
 	{
-		fscanf(fp2, "%[^,],%[^,],%d,%[^,],%[^,],%s,%d-%d-%d,%[^,],%d",
+		fscanf(fp1, "%[^,],%[^,],%d,%[^,],%[^,],%d-%d-%d,%s,%s,%[^,],%d\n",
 		members[counter].name[0],
 		members[counter].name[1],
 		&members[counter].addressmem.building,
 		members[counter].addressmem.street,
 		members[counter].addressmem.city,
-		members[counter].phone,
 		&members[counter].dateofbirth.tm_mday,
 		&members[counter].dateofbirth.tm_mon,
 		&members[counter].dateofbirth.tm_year,
-		members[counter].pass,&members[counter].id);
+		members[counter].phone,
+		members[counter].email,
+		members[counter].pass,
+		&members[counter].id
+		);
 		
+	
 		counter++;
-		id++;
 		//puts("reads");
 		
 	}
@@ -1558,75 +1533,52 @@ while(!feof(fp2))
 	
 	//delay(10);
 	
-fclose(fp2);
-
-/*fp2 = fopen("member.csv", "r") ; 
-counter = 0;
-puts("\ncheckpoint1");
-int year=0;
-
-while(!feof(fp2))
-	{
-		puts("checkpoint2");
-		fscanf(fp2, "%[^,],%[^,],%d,%[^,],%[^,],%d-%d-%d,%s,%d,%[^,]\n",
-		members[counter].name[0], members[counter].name[1], &members[counter].addressmem.building,
-		members[counter].addressmem.street,members[counter].addressmem.city,&members[counter].dateofbirth.tm_mday,
-		&members[counter].dateofbirth.tm_mon,&members[counter].dateofbirth.tm_year
-		,members[counter].phone,&members[counter].id,members[counter].pass
-		);
-		
-		//year -= 1900;
-		//members[counter].dateofbirth.tm_year = year;
-		counter++;
-		id++;
-	}
-	
-	//printf("counter = %d\n" ,counter);
-	struct_index2 = counter-1;
-	printf("\nstruct_index2 = %d\n" ,struct_index2);
-	
-	
-	fclose(fp2);
-	*/
-	delay(10);
-	
-
-
-/*fp2 = fopen("member.csv", "r") ;
-	counter =0;
-	int year;
-while(!feof(fp2))
-	{
-		 
-		fscanf(fp2, "%[^,],%[^,],%d,%[^,],%[^,],%d-%d-%d,%d,%[^,]\n",
-		members[counter].name[0],members[counter].name[1],&members[counter].addressmem.building,
-		members[counter].addressmem.street, members[counter].addressmem.city,&members[counter].dateofbirth.tm_mday,
-		&members[counter].dateofbirth.tm_mon,year,
-		&members[counter].id, members[counter].pass);
-		
-		year -= 1900;
-		members[counter].dateofbirth.tm_year = year;
-		id++;
-		
-		
-	
-		counter++;
-		
-	}
-	
-	//printf("counter = %d\n" ,counter);
-	struct_index2 = counter-1;
-	printf("\nstruct_index = %d\n" ,struct_index1);
-	
-	
-	
-	delay(10);
-	
 fclose(fp1);
-*/
+
 
 }
 
+
+void read_from_file2(void)
+{
+
+// book
+FILE *fp2  ,*fpt;
+
+int counter =0;
+
+fp2 = fopen("member.csv", "r") ; 
+fpt = fopen("member.csv", "r") ; 
+char temp[100];
+while(fgets(temp, sizeof(temp), fpt) != NULL)
+	{
+		
+		fscanf(fp2, "%[^,],%[^,],%d,%[^,],%[^,],%d-%d-%d,%s,%[^,],%[^,],%d\n",
+		members[counter].name[0],
+		members[counter].name[1],
+		&members[counter].addressmem.building,
+		members[counter].addressmem.street,
+		members[counter].addressmem.city,
+		&members[counter].dateofbirth.tm_mday,
+		&members[counter].dateofbirth.tm_mon,
+		&members[counter].dateofbirth.tm_year,
+		members[counter].phone,
+		members[counter].email,
+		members[counter].pass,&members[counter].id);
+		counter++;
+		id++;
+		puts("reads");
+		
+	}
+	
+	//printf("%s",temp);
+	struct_index2 = counter-1;
+	printf("\nstruct_index2 = %d\n" ,struct_index2);
+	
+fclose(fpt);
+fclose(fp2);
+
+}
 bool checkdateb(int day , int month , int year)
  {
  
