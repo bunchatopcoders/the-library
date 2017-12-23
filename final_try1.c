@@ -112,7 +112,7 @@ void menu_mem(void);
 void menu_search(void);
 void addbook(void);
 void addmember(void);
-//void search_in_book(char* str , int mode);
+
 void save_in_file(void);
 void read_from_file(void);
 int search_in_book_R(char* str , int mode);
@@ -128,6 +128,8 @@ void read_from_file3(void);
 void save_in_file3(void);
 void save_in_file2(void);
 bool checkdate(int day , int month , int year);
+bool check_string(char*str);
+int search_id(int id);
 
 void read_from_file2(void);
 //void search_in_book(book books[] , char* str , int mode);
@@ -138,6 +140,7 @@ int struct_index3 = -1; // borrow
 int id=0;
 int indx[STRUCTSIZE] = {0}; //matches in search_in_book_R
 int yeear = 2017;
+int id_hold;
 
 int main()
 {
@@ -148,16 +151,20 @@ tm tim = *localtime(&t);
 
 yeear = tim.tm_year + 1900; // now global has current year
 
+read_from_file();
 read_from_file2();
+
+menu_login();
 //read_from_file3();
-//read_from_file();
+
 //addbook();
 
-  addmember();
-  delay(50);
+ //menu_login();
+  //addmember();
+  //delay(50);
 	
   //addbook();
-  char bufs[20];
+  //char bufs[20];
   
   
   
@@ -570,20 +577,30 @@ void menu_login(void)
 
 printf("\u287F\u287F\u287F");
 
+char buffer[64];
+int fid;
 
 puts("\n\u287F Enter ID :");
+fgets(buffer,sizeof(buffer),stdin);
 
-// check from file
-// if exists :
+// search for id in member structure 
+fid = search_id(atoi(buffer));
 
-puts ("\u287F\u287F Enter password :");
-
-//if both true --> menu_mem(); false : indicate invalid inputs
-
-// just for test :
-
- delay(10);
+if( fid == -1)
+puts("Id NOT FOUND!");
+else
+// get password --> you have index
+{
+	//strcpy(passgot , members[fid].pass);
+ puts("Enter password");
+ fgets(buffer, sizeof(buffer),stdin);
+ int len = strlen(buffer)-1;
+ buffer[len] = '\0';
+ if( strcmp(buffer,members[fid].pass)==0)
  menu_mem();
+ id_hold = members[fid].id;
+
+}
 
 	
 }
@@ -597,7 +614,7 @@ for (int i = 0 ; i<18; i++)
 printf("\u287F\u287F\u287F");
 
 	puts("\n\u287F\u287F\u287F Member Page : \u287F\u287F\u287F");
-	puts("\t\u278A Title\n\t\u278B Search\n\t\u278C Borrow\n\t\u278D Return\n\t\u278E Leave (delete account)");
+	puts("\t\u278A Search\n\t\u278B Search\n\t\u278C Borrow\n\t\u278D Return\n\t\u278E Leave (delete account)");
 
 	do {
 		
@@ -605,9 +622,12 @@ printf("\u287F\u287F\u287F");
 		{
 		
 			case '1':
+			menu_search();
+			flagm = FALSE;
+			break;
 			case '2' :
 			flagm = FALSE;
-			puts(" unavailable now :)");
+			
 			break;
 		
 			
@@ -903,32 +923,31 @@ struct_index2++;
 char buffer[64];
 int len;
 
-bool flagfn = TRUE;
-//isstralpha not working
 
+do{
 puts("Enter First Name:");
 fgets(buffer,32,stdin);
 len = strlen(buffer)-1;
 buffer[len] = '\0';
 //flagfn = isstralpha(buffer);
-
+} while(!check_string(buffer));
 
 strcpy(members[struct_index2].name[0],buffer);
-printf("\n %s\n",members[struct_index2].name[0]);
+//printf("\n %s\n",members[struct_index2].name[0]);
 
-bool flagln = TRUE;
-
+do
+{
 puts("Enter Last Name:");
 fgets(buffer,32,stdin);
 len = strlen(buffer)-1;
 buffer[len] = '\0';
 //flagln = isstralpha(buffer);
-
+} while(!check_string(buffer));
 
 strcpy(members[struct_index2].name[1],buffer);
 //printf("\n %s\n",members[struct_index2].name[1]);
 
-bool flag_bl = TRUE;
+//bool flag_bl = TRUE;
 
 do {
 	
@@ -936,16 +955,14 @@ puts("Enter building no:");
 fgets(buffer,32,stdin);
 len = strlen(buffer)-1;
 buffer[len] = '\0';
-flag_bl = isstrdigit(buffer);
 
-} while(!flag_bl);
+} while(!isstrdigit(buffer));
 
 
 int buildno;
 buildno = atoi(buffer);
 members[struct_index2].addressmem.building = buildno;
 
-//printf("\n %d\n",members[struct_index2].addressmem.building);
 
 
 puts("Enter Street:");
@@ -955,21 +972,17 @@ buffer[len] = '\0';
 strcpy(members[struct_index2].addressmem.street , buffer); 
 
 
-//printf("\n %s\n",members[struct_index2].addressmem.street);
 puts("Enter city:");
 fgets(buffer,NAME/2,stdin);
 len = strlen(buffer)-1;
 buffer[len] = '\0';
 strcpy(members[struct_index2].addressmem.city , buffer); 
-//printf("street = %s",members[struct_index2].addressmem.city);
 
-//int flag_age = FALSE;
-//int age=0;
 
-int d,m,y;
+/*int d,m,y;
 char buf1[32] , buf2[32];
 bool flagd , flagm , flagy , flagg = TRUE;
-
+*/
 /*
 do {
 puts("Enter date of birth : ");
@@ -1470,7 +1483,7 @@ void read_from_file(void)
 {
 
 // book
-FILE *fp1 , *fp2 ;
+FILE *fp1 ;
 
 fp1 = fopen("book.csv", "r") ; 
 
@@ -1674,7 +1687,7 @@ while(fgets(line, sizeof(line), fpt) != NULL)
 	
 fclose(fpt);
 fclose(fp2);
-delay(50);
+delay(10);
 }
 bool checkdateb(int day , int month , int year)
  {
@@ -1900,4 +1913,35 @@ bool isstrdigit (char * str)
 		
 		return flag;
 	
+}
+
+ int search_id(int id)
+ {
+	 int i;
+	 int r;
+	 for (i = 0 ; i<= struct_index2 ; i++)
+	 if (members[i].id == id)
+	 {
+		 r = i;
+		 return i;
+	 break;
+	}else
+	r=-1;
+	
+	return  r;
+ }
+
+
+bool check_string(char*str)
+{
+    int i,x; //return value
+    for(i=0; str[i]!='\0' ;i++)
+       { if(isalpha(str[i]))
+          x=1; 
+       else
+       {x=0;
+          break;
+       }
+       }
+       return x;
 }
