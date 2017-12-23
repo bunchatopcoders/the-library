@@ -117,7 +117,7 @@ void save_in_file(void);
 void read_from_file(void);
 int search_in_book_R(char* str , int mode);
 void search_in_book(char* str , int mode);
-void addcopy(char *isbn);
+void addcopy(void);
 bool isstrdigit (char * str);
 bool isstralpha (char * str);
 bool isletter(int ch);
@@ -130,6 +130,9 @@ void save_in_file2(void);
 bool checkdate(int day , int month , int year);
 bool check_string(char*str);
 int search_id(int id);
+void removebook(void);
+void search_member(void);
+void removemember(void);
 
 void read_from_file2(void);
 //void search_in_book(book books[] , char* str , int mode);
@@ -154,7 +157,11 @@ yeear = tim.tm_year + 1900; // now global has current year
 read_from_file();
 read_from_file2();
 
-menu_login();
+removemember();
+//search_member();
+delay(50);
+//removebook();
+//menu_login();
 //read_from_file3();
 
 //addbook();
@@ -404,7 +411,7 @@ puts("\n\t\u287F\u287F\u287F Memeber Management \u287F\u287F\u287F\t");
 puts ("\t\u278E Search a Memeber");
 puts ("\t\u278F Add Memeber");
 //u287F
-printf(RED "\t\u2790 Suspend a Member\n\t\u2791 Remove a Member\t\n" RESET);
+printf(RED "\t\u2790 Remove a Member\t\n" RESET);
 
 
 for (i = 0 ; i<18 ; i++)
@@ -440,7 +447,7 @@ printf("\n");
 			break;
 	case '2' : 
 			system("clear");
-			
+			addcopy();
 			//choice = 2;
 			flag = FALSE;
 			break;
@@ -459,7 +466,13 @@ printf("\n");
 			break;
 	case '5':
 			system("clear");
-			menu_search();
+			search_member();
+			//choice = 5;
+			flag = FALSE;
+			break;
+	case '6':
+			system("clear");
+			addmember();
 			//choice = 5;
 			flag = FALSE;
 			break;
@@ -614,7 +627,7 @@ for (int i = 0 ; i<18; i++)
 printf("\u287F\u287F\u287F");
 
 	puts("\n\u287F\u287F\u287F Member Page : \u287F\u287F\u287F");
-	puts("\t\u278A Search\n\t\u278B Search\n\t\u278C Borrow\n\t\u278D Return\n\t\u278E Leave (delete account)");
+	puts("\t\u278A Search\n\t\u278B Borrow\n\t\u278C Return\n\t\u278D Sign out");
 
 	do {
 		
@@ -636,6 +649,11 @@ printf("\u287F\u287F\u287F");
 			menu_search();
 			break;
 			
+			case '4' :
+			flagm = FALSE;
+			id_hold = 0;
+			//end of loop main_menu again
+			break;
 			
 			case 'm' :
 			flagm = FALSE;
@@ -649,7 +667,7 @@ printf("\u287F\u287F\u287F");
 		
 		
 		} while(flagm);
-	delay(10);
+	delay(20);
 	
 }
 
@@ -1241,7 +1259,7 @@ void search_in_book(char* str , int mode){
     
   } //end of for
   
-  printf("Number of matches = %d",found);
+  //printf("Number of matches = %d",found);
  
 } // end of function
  
@@ -1339,8 +1357,8 @@ int search_in_book_R(char* str , int mode){
     
   } //end of for
   
-	//printf("Number of matches = %d",*found);
-	//found = 10;
+	
+	
 	return found;
 } // end of function
 
@@ -1453,8 +1471,14 @@ FILE *fp1;
  
 }
 
-void addcopy(char *isbn)
+void addcopy()
 {
+	char isbn[32];
+	puts("Enter ISBN");
+	fgets(isbn , sizeof(isbn), stdin);
+	//int len = strlen(isbn)-1;
+	//isbn[len] = '\0';
+	
 	int found = search_in_book_R(isbn , 1);
 	if (!found)
 	puts("Book Not Found!");
@@ -1931,6 +1955,102 @@ bool isstrdigit (char * str)
 	return  r;
  }
 
+
+void removebook(void)
+{
+	int i;
+	char isbn[32];
+	puts("Enter ISBN");
+	fgets(isbn , sizeof(isbn), stdin);
+	
+	int found = search_in_book_R(isbn , 1); // found is index
+	if (!found)
+	puts("Book Not Found!");
+	else
+	{
+		puts("book removed");
+		for (i=found ; i < struct_index1 ; i++)
+		books[i] = books[i+1];
+		struct_index1--;
+		save_in_file();
+	}
+}
+
+
+void removemember(void)
+{
+	int i;
+	char id[32];
+	puts("Enter Id");
+	fgets(id , sizeof(id), stdin);
+	
+	int found=-1;
+	
+	for( i=0; i<=struct_index2 ; i++)
+	if( members[i].id == atoi(id)) 
+	{found = i;
+	break;
+	}
+	if (found == -1)
+	puts("Member Not Found!");
+	else
+	{
+		
+		// check if all book returned
+		for (i=found ; i < struct_index2 ; i++)
+		members[i] = members[i+1];
+		struct_index2--;
+		save_in_file2();
+		puts("Member removed");
+	}
+}
+
+
+void search_member(void)
+{
+		puts("Enter Id:");
+		char id[32];
+		fgets(id,sizeof(id),stdin);
+		//printf("id entered : %d",atoi(id));
+		int i;
+		for (i=0; i <=struct_index2 ; i++)
+		{
+			if(members[i].id == atoi(id))
+			
+			{
+				printf("%s %s\t %d,%s,%s\t%s\t%s\n",
+				members[i].name[0],members[i].name[1],
+				members[i].addressmem.building,members[i].addressmem.street,members[i].addressmem.city,
+				members[i].phone,members[i].email);
+				
+				break;
+			}else 
+		puts("Id NOT FOUND");
+		} 
+	
+	
+}
+
+int timediff(tm date1 , tm date2)
+{
+	int day_due , day_r;
+	time_t issue , due ,returned;
+	
+	date1.tm_hour = 0;  date1.tm_min = 0;  date1.tm_sec = 0;	
+	date2.tm_hour = 0;  date2.tm_min = 0;  date2.tm_sec = 0;
+	
+	day_due = difftime(due, issue)/(3600*24);
+	day_r = difftime(returned , issue)/(3600*24);
+	
+	
+}
+
+void borrowbook(void)
+{
+	
+	
+	
+}
 
 bool check_string(char*str)
 {
