@@ -1,0 +1,10 @@
+fawzi,mahmoud,12,saad za8lolst,alexandria,15,01213432567,aaa@bbb.com,12345
+nour,ahmed,13,salemst,elmahalla,12,01276543222,bbb@ccc.com,12367
+aziz,malek,18,,azizst,tanta,6,01211678123,ccc@ddd.com,21456
+samih,selim,20,cairost,cairo,17,01211678145,ddd@bbb.com,21432
+samy,ashraf,25,salamast,fayoum,20,01211672145,mmm@fff.com,4324242
+hala,said,23,assafst,monofeya,23,01211678122,eee@mmm.com,2432242425
+menna,adel,40,sallamst,kalyobeya,9,01211678211,zzz@rrr.com,3214141
+aziza,anwar,34,abdallast,dakahleya,40,01211678211,ggg@mmm.com,13414
+suzan,sayyed,37,mohamedst,aswan,60,01232341441,yyy@jjj.com,12414569
+shalabi,hussein,36,atast,luxor,77,01232445255,ccc@eee.com,54657884
